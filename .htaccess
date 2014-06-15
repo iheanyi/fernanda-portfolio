@@ -3,19 +3,9 @@
 # rewrite rules
 <IfModule mod_rewrite.c>
 
-# enable awesome urls. i.e.: 
-# http://yourdomain.com/about-us/team
+# enable awesome urls. i.e.: http://yourdomain.com/about-us/team
 RewriteEngine on
 
-# make sure to set the RewriteBase correctly
-# if you are running the site in a subfolder.
-# Otherwise links or the entire site will break.
-# 
-# If your homepage is http://yourdomain.com/mysite
-# Set the RewriteBase to:
-# 
-# RewriteBase /mysite
-# 
 RewriteBase /
 
 # block text files in the content folder from being accessed directly
@@ -42,10 +32,29 @@ RewriteRule ^(.*) index.php [L]
  
 </IfModule>
 
+# GZIP Compression for supported servers
 
-# Additional recommended values
-# Remove comments for those you want to use. 
+<ifModule mod_gzip.c>
+mod_gzip_on Yes
+mod_gzip_dechunk Yes
+mod_gzip_item_include file .(html?|txt|css|js|php|pl)$
+mod_gzip_item_include handler ^cgi-script$
+mod_gzip_item_include mime ^text/.*
+mod_gzip_item_include mime ^application/x-javascript.*
+mod_gzip_item_exclude mime ^image/.*
+mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</ifModule>
+
+# Leverage browser caching (1 week from access date)
+
+<ifModule mod_expires.c>
+ExpiresDefault "access plus 1 week"
+<FilesMatch "\.(html|js|css|png|ico|jpg|jpeg|eot|svg|ttf|woff)$">
+Header set Cache-Control "max-age=604800, public, must-revalidate"
+</FilesMatch>
+</ifModule>
+
+# Additional recommended values, remove comments for those you want to use. 
 # 
 # AddDefaultCharset UTF-8
-#
-# php_flag short_open_tag on 
+# php_flag short_open_tag on

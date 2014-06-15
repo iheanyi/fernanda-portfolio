@@ -1,0 +1,7 @@
+$mobile-size: 480px;
+
+$mobile: new-breakpoint(min-width $mobile-size 4);
+
+$visual-grid-index: front;
+$visual-grid: true;
+$visual-grid-opacity: 0.4;
